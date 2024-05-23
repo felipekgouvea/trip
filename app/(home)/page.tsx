@@ -1,9 +1,9 @@
 export const metadata = {
-  title: "HomePage"
+  title: 'HomePage',
 }
 
 const HomePage = () => {
-  return ( <h1>My App</h1> );
+  return <h1>My App</h1>
 }
- 
-export default HomePage;
+
+export default HomePage
