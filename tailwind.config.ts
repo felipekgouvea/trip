@@ -18,6 +18,9 @@ const config = {
       },
     },
     extend: {
+      backgroundImage: {
+        'search-background': 'url(/world-map.png)',
+      },
       colors: {
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
@@ -31,7 +34,7 @@ const config = {
           GRAY: '#717171',
         },
         secondary: {
-          DEFAULT: 'hsl(var(--secondary))',
+          DEFAULT: '#312A4F',
           foreground: 'hsl(var(--secondary-foreground))',
         },
         destructive: {

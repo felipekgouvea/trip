@@ -1,7 +1,7 @@
 'use client'
 
-import { Avatar, AvatarImage } from '@/components/ui/avatar'
-import { Button } from '@/components/ui/button'
+import { Avatar, AvatarImage } from './ui/avatar'
+
 import { Loader2, MenuIcon } from 'lucide-react'
 import { signIn, signOut, useSession } from 'next-auth/react'
 import Image from 'next/image'
@@ -13,13 +13,14 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
+} from './ui/dropdown-menu'
+import { Button } from './ui/button'
 
 const Header = () => {
   const { data } = useSession()
   const [isSignOutLoading, setIsSignOutLoading] = useState(false)
 
-  const handleSignInClick = () => signIn()
+  const handleSignInClick = () => signIn('google')
 
   const handleSignOutClick = async () => {
     setIsSignOutLoading(true)

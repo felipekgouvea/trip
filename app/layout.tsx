@@ -1,29 +1,32 @@
-import type { Metadata } from "next";
-import { Poppins } from "next/font/google";
-import "./globals.css";
-import Header from "./_components/header";
-import AuthProvider from "./_provider/auth";
+import type { Metadata } from 'next'
+import { Poppins } from 'next/font/google'
+import './globals.css'
+import AuthProvider from './_provider/auth'
+import Header from './_components/header'
 
-const poppins = Poppins({ subsets: ["latin"], weight: ["400", "500", "600", "700", "800"] });
+const poppins = Poppins({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700', '800'],
+})
 
 export const metadata: Metadata = {
-  title: "Trips",
-  description: "Sistema de reserva de viagens",
-};
+  title: 'Trips',
+  description: 'Sistema de reserva de viagens',
+}
 
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: React.ReactNode
 }>) {
   return (
     <html lang="en">
       <body className={poppins.className}>
         <AuthProvider>
-          <Header/>
+          <Header />
           {children}
         </AuthProvider>
       </body>
     </html>
-  );
+  )
 }
