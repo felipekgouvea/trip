@@ -1,8 +1,8 @@
 import type { Metadata } from 'next'
 import { Poppins } from 'next/font/google'
 import './globals.css'
-import AuthProvider from './_provider/auth'
 import Header from './_components/header'
+import AuthProvider from './_provider/auth'
 
 const poppins = Poppins({
   subsets: ['latin'],
