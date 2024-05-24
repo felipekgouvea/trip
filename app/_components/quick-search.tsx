@@ -1,17 +1,12 @@
 import { HomeIcon, HotelIcon, TractorIcon, WarehouseIcon } from 'lucide-react'
+import QuickSearchTitle from './quick-search-title'
 
 const QuickSearch = () => {
   return (
     <div className="mx-auto p-5">
-      <div className="flex items-center">
-        <div className="h-[1px] w-full bg-gray-300"></div>
-        <h2 className="whitespace-nowrap px-5 text-sm font-normal text-secondary">
-          Tente pesquisar por
-        </h2>
-        <div className="h-[1px] w-full bg-gray-300"></div>
-      </div>
+      <QuickSearchTitle title="Tente pesquisar por" />
 
-      <div className="mt-5 flex w-full justify-between">
+      <div className="mb-5 mt-5 flex w-full justify-between">
         <div className="flex flex-col items-center gap-1">
           <HotelIcon size={35} className="text-secondary" />
           <p className="text-sm text-secondary">Hotel</p>
@@ -29,6 +24,8 @@ const QuickSearch = () => {
           <p className="text-sm text-secondary">Pousada</p>
         </div>
       </div>
+
+      <QuickSearchTitle title="Destinos Recomendados" />
     </div>
   )
 }
