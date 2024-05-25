@@ -30,7 +30,7 @@ const config = {
         primary: {
           DEFAULT: '#590BD8',
           LIGHTER: '#DDD5EA',
-          DARKER: '#312A4F',
+          DARK: '#312A4F',
           GRAY: '#717171',
         },
         secondary: {
