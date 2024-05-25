@@ -1,6 +1,6 @@
 'use client'
 
-import { Avatar, AvatarImage } from './ui/avatar'
+import { Avatar, AvatarImage } from '../ui/avatar'
 
 import { Loader2, MenuIcon } from 'lucide-react'
 import { signIn, signOut, useSession } from 'next-auth/react'
@@ -13,8 +13,9 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from './ui/dropdown-menu'
-import { Button } from './ui/button'
+} from '../ui/dropdown-menu'
+import { Button } from '../ui/button'
+import Link from 'next/link'
 
 const Header = () => {
   const { data } = useSession()
@@ -35,12 +36,14 @@ const Header = () => {
 
   return (
     <header className="mx-auto flex items-center justify-between px-5 py-5">
-      <Image
-        src="/logo.png"
-        alt="Logo Marca da empresa"
-        width="183"
-        height="32"
-      />
+      <Link href="/">
+        <Image
+          src="/logo.png"
+          alt="Logo Marca da empresa"
+          width="183"
+          height="32"
+        />
+      </Link>
 
       <DropdownMenu>
         <DropdownMenuTrigger className="rounded-full" asChild>

@@ -9,8 +9,8 @@ import {
   FormItem,
   FormMessage,
 } from '@/app/_components/ui/form'
-import { Input } from './ui/input'
-import { Button } from './ui/button'
+import { Input } from '../ui/input'
+import { Button } from '../ui/button'
 
 const formSchema = z.object({
   trip: z.string().min(2).max(50),
