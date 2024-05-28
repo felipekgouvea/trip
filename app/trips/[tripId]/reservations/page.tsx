@@ -12,7 +12,7 @@ const ReservationsPage = async () => {
 
   return (
     <div className="p-5">
-      <h1>Minhas Viagens</h1>
+      <h1 className="text-xl font-semibold">Minhas Viagens</h1>
       {reservations.map((reservation) => (
         <ReservationItem reservation={reservation} key={reservation.id} />
       ))}
