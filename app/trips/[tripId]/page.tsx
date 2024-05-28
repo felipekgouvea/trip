@@ -1,9 +1,9 @@
 import { db } from '@/app/_lib/prisma'
 import TripImage from './components/trip-image'
 import TripInfo from './components/trip-info'
-import TripForm from './components/trip-form'
 import TripDescription from './components/trip-description'
 import TripLocation from './components/trip-location'
+import TripReservation from './components/trip-reservation'
 
 const TripPage = async ({ params }: { params: { tripId: string } }) => {
   const trip = await db.trip.findUnique({
@@ -19,7 +19,7 @@ const TripPage = async ({ params }: { params: { tripId: string } }) => {
       <TripImage coverImage={trip.coverImage} name={trip.name} />
       <div className=" px-5">
         <TripInfo trip={trip} />
-        <TripForm />
+        <TripReservation trip={trip} />
         <TripDescription trip={trip} />
         <TripLocation trip={trip} />
       </div>
