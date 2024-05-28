@@ -19,7 +19,13 @@ const TripPage = async ({ params }: { params: { tripId: string } }) => {
       <TripImage coverImage={trip.coverImage} name={trip.name} />
       <div className=" px-5">
         <TripInfo trip={trip} />
-        <TripReservation trip={trip} />
+        <TripReservation
+          pricePerDay={Number(trip.pricePerDay)}
+          tripEndDate={trip.endDate}
+          tripId={trip.id}
+          tripStartDate={trip.startDate}
+          maxGuests={trip.maxGuests}
+        />
         <TripDescription trip={trip} />
         <TripLocation trip={trip} />
       </div>

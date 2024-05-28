@@ -13,7 +13,6 @@ import {
 import { Separator } from '@/app/_components/ui/separator'
 
 import { cn } from '@/app/_lib/utils'
-import { Trip } from '@prisma/client'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -24,6 +23,15 @@ import {
   FormItem,
   FormMessage,
 } from '@/app/_components/ui/form'
+import { useRouter } from 'next/navigation'
+
+interface TripReservationProps {
+  tripId: string
+  tripStartDate: Date
+  tripEndDate: Date
+  maxGuests: number
+  pricePerDay: number
+}
 
 const formSchema = z.object({
   startDate: z.date({
@@ -32,29 +40,76 @@ const formSchema = z.object({
   endDate: z.date({
     required_error: 'A data final é obrigatória.',
   }),
-  guests: z.string({
+  guests: z.coerce.number({
     required_error: 'O número de hospedes é obrigatório',
   }),
 })
 
-interface TripReservationProps {
-  trip: Trip
-}
-
 type FormSchema = z.infer<typeof formSchema>
 
-const TripReservation = ({ trip }: TripReservationProps) => {
+const TripReservation = ({
+  tripId,
+  maxGuests,
+  tripStartDate,
+  tripEndDate,
+  pricePerDay,
+}: TripReservationProps) => {
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
+    defaultValues: {
+      guests: 0,
+    },
   })
+
+  const router = useRouter()
+
+  const onSubmit = async (data: FormSchema) => {
+    const response = await fetch('/api/trips/check', {
+      method: 'POST',
+      body: Buffer.from(
+        JSON.stringify({
+          startDate: data.startDate,
+          endDate: data.endDate,
+          tripId,
+        }),
+      ),
+    })
+
+    const res = await response.json()
+
+    if (res?.error?.code === 'TRIP_ALREADY_RESERVED') {
+      form.setError('startDate', {
+        type: 'manual',
+        message: 'Esta data já está reservada.',
+      })
+
+      return form.setError('endDate', {
+        type: 'manual',
+        message: 'Esta data já está reservada.',
+      })
+    }
+
+    if (res?.error?.code === 'INVALID_START_DATE') {
+      return form.setError('startDate', {
+        type: 'manual',
+        message: 'Data inválida.',
+      })
+    }
+
+    if (res?.error?.code === 'INVALID_END_DATE') {
+      return form.setError('endDate', {
+        type: 'manual',
+        message: 'Data inválida.',
+      })
+    }
+
+    router.push(
+      `/trips/${tripId}/confirmation?startDate=${data.startDate?.toISOString()}&endDate=${data.endDate?.toISOString()}&guests=${data.guests}`,
+    )
+  }
 
   const startDate = form.watch('startDate')
   const endDate = form.watch('endDate')
-
-  const handleSubmint = (data: FormSchema) => {
-    console.log(data)
-    console.log(trip.endDate)
-  }
 
   return (
     <div className="mt-5">
@@ -62,7 +117,7 @@ const TripReservation = ({ trip }: TripReservationProps) => {
         <div className="flex items-center gap-2">
           <Form {...form}>
             <form
-              onSubmit={form.handleSubmit(handleSubmint)}
+              onSubmit={form.handleSubmit(onSubmit)}
               className="w-full space-y-3"
             >
               <div className="flex gap-2">
@@ -96,8 +151,8 @@ const TripReservation = ({ trip }: TripReservationProps) => {
                               selected={field.value}
                               onSelect={field.onChange}
                               initialFocus
-                              toDate={trip.endDate}
-                              fromDate={trip.startDate}
+                              toDate={tripEndDate}
+                              fromDate={tripStartDate}
                               locale={ptBR}
                             />
                           </PopoverContent>
@@ -139,7 +194,7 @@ const TripReservation = ({ trip }: TripReservationProps) => {
                               initialFocus
                               locale={ptBR}
                               fromDate={startDate}
-                              toDate={trip.endDate}
+                              toDate={tripEndDate}
                               disabled={!startDate}
                             />
                           </PopoverContent>
@@ -157,7 +212,12 @@ const TripReservation = ({ trip }: TripReservationProps) => {
                 render={({ field }) => (
                   <FormItem className="w-full rounded-md border border-muted-foreground">
                     <FormControl>
-                      <Input placeholder="Hóspedes" {...field} />
+                      <Input
+                        type="number"
+                        max={maxGuests}
+                        placeholder="Hóspedes"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -170,7 +230,7 @@ const TripReservation = ({ trip }: TripReservationProps) => {
                 </span>
                 <span className="text-sm font-medium text-primary-DARK">
                   {startDate && endDate
-                    ? `R$${differenceInDays(endDate, startDate) * Number(trip.pricePerDay)}`
+                    ? `R$${differenceInDays(endDate, startDate) * Number(pricePerDay)}`
                     : 'R$0'}
                 </span>
               </div>
