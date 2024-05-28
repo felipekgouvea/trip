@@ -1,3 +1,4 @@
+import { Badge } from '@/app/_components/ui/badge'
 import { Button } from '@/app/_components/ui/button'
 import { Card, CardContent } from '@/app/_components/ui/card'
 import { Separator } from '@/app/_components/ui/separator'
@@ -31,7 +32,7 @@ const ReservationItem = ({ reservation }: ReservationItemProps) => {
                   className="rounded-xl object-cover"
                 />
               </div>
-              <div className="flex w-full flex-col justify-center">
+              <div className="relative flex w-full flex-col justify-center">
                 <h3 className="font-semibold text-primary-DARK">
                   {reservation.trip.name}
                 </h3>
@@ -41,6 +42,11 @@ const ReservationItem = ({ reservation }: ReservationItemProps) => {
                     svg
                   />
                   <p className="text-xs">{reservation.trip.location}</p>
+                </div>
+                <div className="absolute right-0 top-2 text-white">
+                  <Badge className="hover:bg-primary">
+                    {reservation.status}
+                  </Badge>
                 </div>
               </div>
             </div>
