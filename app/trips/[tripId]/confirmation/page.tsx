@@ -13,10 +13,12 @@ import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import ReactCountryFlag from 'react-country-flag'
 import { createReservation } from '@/app/api/actions/reservation'
+import { Loader2 } from 'lucide-react'
 
 const TripConfirmation = ({ params }: { params: { tripId: string } }) => {
   const [trip, setTrip] = useState<Trip | null>()
   const [totalPrice, setTotalPrice] = useState<number>(0)
+  const [isReservationLoading, setIsReservationLoading] = useState(false)
 
   const router = useRouter()
 
@@ -59,6 +61,7 @@ const TripConfirmation = ({ params }: { params: { tripId: string } }) => {
 
     const guestsReservation = parseInt(guests)
     try {
+      setIsReservationLoading(true)
       await createReservation(
         endDate,
         startDate,
@@ -67,9 +70,13 @@ const TripConfirmation = ({ params }: { params: { tripId: string } }) => {
         trip.id,
         (data.user as any).id,
       )
+
+      router.push(`/trips/${trip.id}/reservations`)
       toast.success('Reserva realizada com sucesso.')
     } catch (error) {
       toast.error('Error ao fizalizar a reserva')
+    } finally {
+      setIsReservationLoading(false)
     }
   }
 
@@ -132,7 +139,14 @@ const TripConfirmation = ({ params }: { params: { tripId: string } }) => {
           <p>{guests} hóspedes</p>
         </div>
 
-        <Button onClick={handleReservationClick} className="w-full text-white">
+        <Button
+          disabled={isReservationLoading}
+          onClick={handleReservationClick}
+          className="w-full text-white"
+        >
+          {isReservationLoading && (
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+          )}
           Finalizar reserva
         </Button>
       </div>
