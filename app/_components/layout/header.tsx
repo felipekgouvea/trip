@@ -35,7 +35,7 @@ const Header = () => {
   }
 
   return (
-    <header className="mx-auto flex items-center justify-between px-5 py-5">
+    <header className="mx-auto flex items-center justify-between px-5 py-5 shadow-sm shadow-[#ccc]">
       <Link href="/">
         <Image
           src="/logo.png"
