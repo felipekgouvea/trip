@@ -8,7 +8,7 @@ export const getReservations = async (userId: string) => {
       userId,
     },
     orderBy: {
-      startDate: 'desc',
+      startDate: 'asc',
     },
     include: {
       trip: true,
